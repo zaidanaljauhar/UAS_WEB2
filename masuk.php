@@ -94,8 +94,66 @@ $barang = mysqli_query($koneksi, "SELECT * FROM masuk m, produk p WHERE m.id_pro
                                             <td><?= $brg['deskripsi'] ?></td>
                                             <td><?= $brg['qty'] ?></td>
                                             <td><?= $brg['tgl_masuk'] ?></td>
-                                            <td>Edit|Delete</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $brg['id_masuk'];?>">Edit</button>
+                                                |
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $brg['id_masuk'];?>">Delete</button>
+                                            </td>
                                         </tr>
+                                        <!-- Modal Edit--> 
+                                        <div class="modal fade" id="edit<?= $brg['id_masuk'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ubah Data Barang Masuk</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form action="" method="post">
+
+                                            <div class="modal-body">
+                                            <input type="text" name="namaproduk" class="form-control" placeholder="Nama Produk" value="<?= $brg['nama_produk']; ?>" disabled>
+                                                    <input type="number" name="qty" class="form-control mt-2" placeholder="jumlah" value="<?= $brg['qty']; ?>" min="1" required>
+                                                    <input type="hidden" name="idm" value="<?= $brg['id_masuk']; ?>">
+                                                    <input type="hidden" name="idp" value="<?= $brg['id_produk']; ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success" name="editmasuk">Submit</button> 
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+
+                                            </form>
+
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                        <!-- Modal Delete-->
+                                        <div class="modal fade" id="delete<?= $brg['id_masuk'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Data Barang Masuk</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form action="" method="post">
+
+                                            <div class="modal-body">
+                                                Apakah anda ingin menghapus data ini
+                                                <input type="hidden" name="idp" value="<?= $brg['id_produk']; ?>">
+                                                <input type="hidden" name="idm" value="<?= $brg['id_masuk']; ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success" name="hapusdatabarangmasuk">Submit</button> 
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+
+                                            </form>
+
+                                            </div>
+                                        </div>
+                                        </div>
                                         <?php $i ++; ?>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -130,39 +188,31 @@ $barang = mysqli_query($koneksi, "SELECT * FROM masuk m, produk p WHERE m.id_pro
                     <h4 class="modal-title">Data Barang Masuk</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="POST">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Pilih Barang
-                    <select name="id_produk" class="form-control">
-
-                        <?php
-                            //untuk mencegah input add produk yg sama
-                            $getproduk = mysqli_query($koneksi,"SELECT * FROM produk)");
-
-                            while($pr = mysqli_fetch_array($getproduk)){
-                                $id_produk = $pr['id_produk'];
-                                $nama_produk = $pr['nama_produk'];
-                                $stock = $pr['stock'];
-                                $deskripsi = $pr['deskripsi'];
-
+                <form method="post">
+                    <div class="modal-body">
+                        Pilih Barang
+                        <select name="id_produk" id="" class="form-control">
+                        <?php 
+                            $getproduk = mysqli_query($koneksi, "SELECT * FROM produk");      
+                                while($pl = mysqli_fetch_array($getproduk)){
+                                    $idproduk = $pl['id_produk'];
+                                    $namaproduk = $pl['nama_produk'];
+                                    $stock = $pl['stock'];
+                                    $deskripsi = $pl['deskripsi'];
+                        ?> 
+                            <option value="<?= $idproduk; ?>"><?= $namaproduk; ?> - <?= $deskripsi; ?> (Stock : <?= $stock; ?>) </option>
+                        <?php 
+                            };
                         ?>
-                    <option value="<?=$id_produk; ?>"> <?= $nama_produk; ?> - <?= $deskripsi; ?> - (Stock: <?=$stock;?>)</option>
-                    <?php    
-                    }
-        
-                    ?>
-                    </select>
-                    <input type="number" name="qty" class="form-control mt-3" placeholder="quantity" min="1" required >
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" name="barangmasuk">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
+                        </select>
+                        <input type="number" name="qty" class="form-control mt-4" placeholder="Jumlah" min="1" required>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" name="barangmasuk">Submit</button> 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
             </div>
         </div>
     </div>
-</form>
 </html>

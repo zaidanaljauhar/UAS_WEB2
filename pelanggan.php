@@ -95,8 +95,64 @@ $h2 = mysqli_num_rows($pelanggan);
                                             <td><?= $pl['nama_pelanggan']; ?></td>
                                             <td><?= $pl['notelp']; ?></td>
                                             <td><?= $pl['alamat']; ?></td>
-                                            <td>Edit|Delete</td>
+                                            <td>
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $pl['id_pelanggan'];?>">Edit</button> |
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $pl['id_pelanggan'];?>">Delete</button>
+                                            </td>
                                         </tr>
+                                        <!-- Modal Edit--> 
+                                        <div class="modal fade" id="edit<?= $pl['id_pelanggan'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ubah<?= $pl['nama_pelanggan']; ?></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form action="" method="post">
+
+                                            <div class="modal-body">
+                                            <input type="text" name="nama_pelanggan" class="form-control" placeholder="Nama Pelanggan" value="<?= $pl['nama_pelanggan']; ?>">
+                                                    <input type="text" name="notelp" class="form-control mt-2" placeholder="No. Telp" value="<?= $pl['notelp']; ?>">
+                                                    <input type="text" name="alamat" class="form-control mt-2" placeholder="Alamat" value="<?= $pl['alamat']; ?>">
+                                                    <input type="hidden" name="idpl" value="<?= $pl['id_pelanggan']; ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success" name="editpelanggan">Submit</button> 
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+
+                                            </form>
+
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                        <!-- Modal Delete-->
+                                        <div class="modal fade" id="delete<?= $pl['id_pelanggan'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Hapus <?= $pl['nama_pelanggan']; ?></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form action="" method="post">
+
+                                            <div class="modal-body">
+                                                Apakah anda ingin menghapus pelanggan ini
+                                                <input type="hidden" name="idpl" value="<?= $pl['id_pelanggan']; ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success" name="hapuspelanggan">Submit</button> 
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+
+                                            </form>
+
+                                            </div>
+                                        </div>
+                                        </div>
                                         <?php $i ++; ?>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -148,6 +204,7 @@ $h2 = mysqli_num_rows($pelanggan);
 
     </div>
   </div>
+
 </div>
 </form>
 </html>

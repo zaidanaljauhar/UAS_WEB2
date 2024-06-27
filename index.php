@@ -109,8 +109,28 @@ $h2 = mysqli_num_rows($h1);
                                             <td><?= $nama_pelanggan; ?></td>
                                             <td><?= $alamat ?></td>
                                             <td><?= $jumlah ?></td>
-                                            <td><a href="view.php?idp= <?= $id_pesanan; ?>" class="btn btn-primary" target="_blank">Tampilkan</a> | Delete</td>
+                                            <td><a href="view.php?idp= <?= $id_pesanan; ?>" class="btn btn-primary" target="">Tampilkan</a> | <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $id_pesanan; ?>">Delete</button></td>
                                         </tr>
+                                        <div class="modal" id="delete<?= $id_pesanan; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Barang</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form method="POST">
+                                                        <div class="modal-body">
+                                                            Apakah Anda yakin menghapus barang ini?
+                                                            <input type="hidden" name="idp" value="<?= $id_pesanan; ?>">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success" name="hapuspesanan">Hapus</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <?php 
                                             }; 
                                         ?>
